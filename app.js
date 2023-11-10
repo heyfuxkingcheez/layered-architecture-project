@@ -1,20 +1,17 @@
 const express = require("express");
 const path = require("path");
 const morgan = require("morgan");
+const dotenv = require("dotenv").config();
 
 const { sequelize } = require("./models");
 const app = express();
 
-app.set("port", process.env.PORT || 3080);
-
-// pug 설정
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
+app.set("port", process.env.PORT);
 
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log("데이터베이스 연결됨");
+    console.log("DATABASE CONECTED!");
   })
   .catch((err) => {
     console.error(err);
@@ -44,5 +41,5 @@ app.use((err, req, res, next) => {
 
 // 서버 실행
 app.listen(app.get("port"), () => {
-  console.log(app.get("port"), "번 포트에서 대기 중");
+  console.log(`SERVER ON`, Number(process.env.PORT), `...`);
 });

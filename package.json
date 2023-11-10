@@ -15,5 +15,9 @@
   "repository": "https://github.com/heyfuxkingcheez/Node-skilled-project.git",
   "author": "Your Name <you@example.com>",
   "license": "MIT",
-  "type": "commonjs"
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "which": "which nodemon"
+  }
 }
