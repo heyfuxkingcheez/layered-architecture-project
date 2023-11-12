@@ -4,8 +4,13 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "ddd",
-    "nickname" : "욱기정",
+    "email": "zzz",
+    "nickname" : "헤이뻐킹치즈",
     "password" : "123",
     "confirmPassword" : "123"
 }
+
+# 회원정보 조회
+###
+GET http://localhost:3080/api/users/:
+Content-Type: application/json

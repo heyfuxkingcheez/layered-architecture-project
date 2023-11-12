@@ -1,4 +1,5 @@
 const express = require("express");
+const usersRouter = require("./routes/users");
 const path = require("path");
 const morgan = require("morgan");
 require("dotenv").config();
@@ -16,8 +17,6 @@ sequelize
     .catch((err) => {
         console.error(err);
     });
-
-const usersRouter = require("./routes/users");
 
 app.use(morgan.apply("dev")); //로그
 app.use(express.static(path.join(__dirname, "public"))); // 요청 시 기본 경로 설정

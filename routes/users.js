@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const User = require("../models/users");
+const { Users } = require("../models");
 
 // 회원가입 API
 router.post("/users", async (req, res) => {
@@ -15,9 +15,7 @@ router.post("/users", async (req, res) => {
     }
 
     // email 또는  nickname이 동일한 데이터가 있는지 확인하기 위해 가져온다.
-    const existEmail = await User.findOne({
-        $or: [{ email }],
-    });
+    const existEmail = await Users.findOne({ email });
     if (existEmail) {
         res.status(400).json({
             errorMessage: "이메일이 이미 사용 중 입니다.",
@@ -25,7 +23,7 @@ router.post("/users", async (req, res) => {
         return;
     }
 
-    const existsNickname = await User.findOne({
+    const existsNickname = await Users.findOne({
         $or: [{ nickname }],
     });
     if (existsNickname) {
@@ -35,10 +33,27 @@ router.post("/users", async (req, res) => {
         return;
     }
 
-    const user = new User({ email, nickname, password });
-    await user.save();
+    const user = await Users.create({ email, nickname, password });
 
-    res.status(200).json({});
+    res.status(200).json({ message: "굳" });
+});
+
+// 회원 정보 조회
+router.get("/users/:id", async (req, res) => {
+    const _id = req.params.id;
+    try {
+        const usersOne = await Users.findOne({ _id });
+        const userDetail = {
+            id: usersOne.id,
+            email: usersOne.email,
+            nickname: usersOne.nickname,
+            createdAt: usersOne.createdAt,
+        };
+        res.json(userDetail);
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ errorMessage: "회원정보가 없습니다." });
+    }
 });
 
 module.exports = router;
