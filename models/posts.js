@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            // define association heres
         }
     }
     Posts.init(
@@ -29,6 +29,16 @@ module.exports = (sequelize, DataTypes) => {
             price: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
+            },
+            createdAt: {
+                allowNull: false, // NOT NULL
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+            },
+            updatedAt: {
+                allowNull: false, // NOT NULL
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
             },
         },
         {

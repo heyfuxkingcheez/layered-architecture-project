@@ -12,7 +12,7 @@ app.set("port", process.env.PORT);
 sequelize
     .sync({ force: false })
     .then(() => {
-        console.log("MySQL Datebase Connected!");
+        console.log("데이터베이스 연결 성공!");
     })
     .catch((err) => {
         console.error(err);
@@ -23,13 +23,6 @@ app.use(express.static(path.join(__dirname, "public"))); // 요청 시 기본 �
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // url 파싱
 app.use("/api", [usersRouter]);
-
-// 일부러 에러 발생시키기 test용
-app.use((req, res, next) => {
-    const error = new Error(`${req.method} ${req.url} 라우터가 없습니다.`);
-    error.status = 404;
-    next(error);
-});
 
 // 에러 처리 미들웨어
 app.use((err, req, res, next) => {

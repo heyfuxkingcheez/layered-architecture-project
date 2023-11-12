@@ -4,13 +4,12 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "zzz",
-    "nickname" : "헤이뻐킹치즈",
-    "password" : "123",
-    "confirmPassword" : "123"
+    "email": "asdf1@naver.com",
+    "nickname" : "정기욱",
+    "password" : "12344444",
+    "confirmPassword" : "12344444"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/:
-Content-Type: application/json
+GET http://localhost:3080/api/users/1
