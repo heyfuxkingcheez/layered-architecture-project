@@ -6,10 +6,57 @@ Content-Type: application/json
 {
     "email": "asdf1@naver.com",
     "nickname" : "정기욱",
-    "password" : "12344444",
-    "confirmPassword" : "12344444"
+    "password" : "123456",
+    "confirmPassword" : "123456"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/1
+GET http://localhost:3080/api/users/2
+
+# 로그인
+###
+POST http://localhost:3080/api/auth
+Content-Type: application/json
+
+{
+    "email": "asdf1@naver.com",
+    "password": "12344444"
+}
+
+# 상품 등록
+###
+POST http://localhost:3080/api/posts
+Content-Type: application/json
+
+{
+    "title" : "글록15팜",
+    "content" : "항상 총은 말보다 옳다",
+    "price" : 12000
+}
+
+# 상품 목록 조회
+###
+GET http://localhost:3080/api/posts
+
+# 상품 상세 조회
+###
+GET http://localhost:3080/api/post/5
+Content-Type: application/json
+
+# 상품 수정
+###
+PUT http://localhost:3080/api/post/5
+Content-Type: application/json
+
+{
+    "title" : "AKM-47",
+    "content" : "더 큰 총알은 더 큰 설득력",
+    "status" : "SOLD_OUT",
+    "price" : 40000
+}
+
+# 상품 삭제
+###
+DELETE  http://localhost:3080/api/post/5
+

@@ -15,7 +15,7 @@ router.post("/users", async (req, res) => {
         return;
     }
 
-    if (password.length < 7) {
+    if (password.length < 6) {
         res.status(400).json({
             errorMessage: "패스워드는 6자리 이상이어야 합니다.",
         });
@@ -61,7 +61,7 @@ router.get("/users/:userid", async (req, res) => {
         res.json(userDetail);
     } catch (error) {
         console.log(error);
-        res.status(400).json({ errorMessage: "회원정보가 없습니다." });
+        res.status(400).json({ errorMessage: "회원 정보가 없습니다." });
     }
 });
 
