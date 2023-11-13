@@ -1,7 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcrypt");
 
 const { Users } = require("../models");
+const main = require("../bcrypt/bcrypt");
 
 // 회원가입 API
 router.post("/users", async (req, res) => {
@@ -40,8 +42,16 @@ router.post("/users", async (req, res) => {
     }
 
     // 회원가입 성공
-    await Users.create({ email, nickname, password });
-    res.status(200).json({ message: "회원가입이 완료 되었습니다." });
+
+    // bcrypt 암호화
+    const saltRounds = 12;
+
+    const main = async () => {
+        const hashedPassword = await makeHash(password, saltRounds);
+        await Users.create({ email, nickname, password: hashedPassword });
+        res.status(200).json({ message: "회원가입이 완료 되었습니다." });
+    };
+    main();
 });
 
 // 회원 정보 조회
