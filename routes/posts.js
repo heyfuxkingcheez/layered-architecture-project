@@ -48,29 +48,27 @@ router.get("/posts", async (req, res) => {
 // 상품 상세 조회 API
 router.get("/post/:productid", async (req, res) => {
     const productid = req.params.productid;
-    const postOne = await Posts.findOne({
-        attributes: ["productId", "title", "content", "status", "price", "createdAt", "updatedAt"],
-        include: [
-            {
-                model: Users,
-                attributes: ["nickname"],
-            },
-        ],
-        where: { productid },
-    });
-
     try {
-        const postDetail = {
-            productid: postOne.productid,
-            UserId: postOne.UserId,
-            title: postOne.title,
-            content: postOne.content,
-            status: postOne.status,
-            createdAt: postOne.createdAt,
-            updatedAt: postOne.updatedAt,
-            nickname: postOne.User.dataValues.nickname,
-        };
-        res.json(postDetail);
+        const postOne = await Posts.findOne({
+            attributes: [
+                "productId",
+                "title",
+                "content",
+                "status",
+                "price",
+                "createdAt",
+                "updatedAt",
+                [sequelize.col("nickname"), "nickname"],
+            ],
+            include: [
+                {
+                    model: Users,
+                    attributes: [],
+                },
+            ],
+            where: { productid },
+        });
+        return res.status(200).json(postOne);
     } catch (error) {
         res.status(400).json({ errorMessage: "상세 목록 조회 실패!" });
     }
