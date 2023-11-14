@@ -4,15 +4,15 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "asdd3@naver.com",
-    "nickname" : "유은지",
+    "email": "asdd2@naver.com",
+    "nickname" : "최수영",
     "password" : "asd123",
     "confirmPassword" : "asd123"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/1
+GET http://localhost:3080/api/users/3
 
 # 로그인
 ### 
@@ -24,21 +24,25 @@ Content-Type: application/json
     "password": "asd123"
 }
 
+# 로그아웃
+###
+GET http://localhost:3080/api/auth/logout
+
+
 # 상품 등록
 ###
 POST http://localhost:3080/api/posts
 Content-Type: application/json
 
 {
-    "title" : "글록15팜",
+    "title" : "토큰값이 왜이럴까",
     "content" : "항상 총은 말보다 옳다",
     "price" : 12000
 }
 
 # 상품 목록 조회
 ###
-GET http://localhost:3080/api/posts?sort=asc
-
+GET http://localhost:3080/api/posts
 # 상품 상세 조회
 ###
 GET http://localhost:3080/api/post/2
@@ -46,7 +50,7 @@ Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/8
+PUT http://localhost:3080/api/post/3
 Content-Type: application/json
 
 {

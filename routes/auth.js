@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const { Users } = require("../models");
 const { checkHash } = require("../bcrypt/bcrypt");
+const authmiddleware = require("../middlewares/auth_middleware");
 
 // 로그인 API
 router.post("/auth", async (req, res) => {
@@ -32,11 +33,18 @@ router.post("/auth", async (req, res) => {
     const token = jwt.sign({ userId: existEmail.userId }, process.env.TOKENKEY, { expiresIn: "3min" });
     // jwt cookie로 할당
     res.cookie("authorization", `Bearer ${token}`);
-
     return res.status(200).json({ message: "로그인 성공!" });
 });
 
 // 로그아웃 API
-router.get("/auth/logout", async (req, res) => {});
+router.get("/auth/logout", authmiddleware, async (req, res) => {
+    try {
+        res.clearCookie("authorization");
+        res.status(200).json({ message: "로그아웃 성공" });
+        console.log(req.cookies);
+    } catch {
+        return res.status(400).json({ message: "로그아웃 실패" });
+    }
+});
 
 module.exports = router;

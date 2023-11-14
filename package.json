@@ -11,7 +11,7 @@
         "sequelize": "^6.34.0",
         "sequelize-cli": "^6.6.2"
     },
-    "name": "Node_skilled_project",
+    "name": "NodeSkilledProject",
     "version": "1.0.0",
     "main": "index.js",
     "repository": "https://github.com/heyfuxkingcheez/Node-skilled-project.git",

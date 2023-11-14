@@ -24,18 +24,16 @@ router.post("/posts", authmiddleware, async (req, res) => {
 
 // 상품 목록 조회 API
 router.get("/posts", async (req, res) => {
-    let urlData = req.url;
-    let queryData = url.parse(urlData, true).query;
-    let sortSTR = String(queryData.sort);
+    let querySTR = req.query.sort;
+
     try {
         let val = "desc";
-
-        if (sortSTR.toLowerCase() === "asc") {
-            val = "asc";
-        } else if (sortSTR.toLowerCase() === "desc" || sortSTR === null) {
+        if (querySTR === "desc" || querySTR === undefined) {
             val;
+        } else if (querySTR === "asc" || querySTR === null) {
+            val = "asc";
         } else {
-            return res.status(400).json({ errorMessage: "잘못된 경로 입니다." });
+            return res.status(400).json({ errorMessage: "옳바르지 않은 접근입니다." });
         }
 
         const allPosts = await Posts.findAll({
@@ -98,6 +96,7 @@ router.put("/post/:productid", authmiddleware, async (req, res) => {
     const { title, content, status, price } = req.body;
     const { userId } = res.locals.user;
     const postOne = await Posts.findOne({ where: { productid } });
+    console.log("여기는 수정 api입니다");
     try {
         if (!postOne) {
             return res.status(404).json({ errorMessage: "상품 조회에 실패하였습니다" });
