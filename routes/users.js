@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const { Users } = require("../models");
-const main = require("../bcrypt/bcrypt");
+const { makeHash } = require("../bcrypt/bcrypt");
 
 // 회원가입 API
 router.post("/users", async (req, res) => {
@@ -58,10 +59,8 @@ router.post("/users", async (req, res) => {
 router.get("/users/:userid", async (req, res) => {
     const userid = req.params.userid;
     const usersOne = await Users.findOne({ where: { userid } });
-    console.log("콘솔 =>", usersOne);
     try {
         const usersOne = await Users.findOne({ where: { userid } });
-        console.log("콘솔 =>", usersOne);
         const userDetail = {
             userid: usersOne.userid,
             email: usersOne.email,
@@ -69,6 +68,7 @@ router.get("/users/:userid", async (req, res) => {
             createdAt: usersOne.createdAt,
         };
         res.json(userDetail);
+        console.log(res.cookie);
     } catch (error) {
         console.log(error);
         res.status(400).json({ errorMessage: "회원 정보가 없습니다." });

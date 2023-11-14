@@ -4,15 +4,15 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "asdd9@naver.com",
-    "nickname" : "김미연",
+    "email": "asdd1@naver.com",
+    "nickname" : "정기욱",
     "password" : "asd123",
     "confirmPassword" : "asd123"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/2
+GET http://localhost:3080/api/users/1
 
 # 로그인
 ###
@@ -20,13 +20,14 @@ POST http://localhost:3080/api/auth
 Content-Type: application/json
 
 {
-    "email": "asdf1@naver.com",
-    "password": "123456"
+    "email": "asdd1@naver.com",
+    "password": "asd123"
 }
 
 # 상품 등록
 ###
 POST http://localhost:3080/api/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5OTk0MjAyMCwiZXhwIjoxNjk5OTQzODIwfQ.mvDfQesNaaZ-R3bFkAlrlCRiJOn3-qFJWkl9-xiLF5A
 Content-Type: application/json
 
 {
@@ -46,7 +47,8 @@ Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/2
+PUT http://localhost:3080/api/post/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5OTk0MjAyMCwiZXhwIjoxNjk5OTQzODIwfQ.mvDfQesNaaZ-R3bFkAlrlCRiJOn3-qFJWkl9-xiLF5A
 Content-Type: application/json
 
 {
@@ -58,5 +60,6 @@ Content-Type: application/json
 
 # 상품 삭제
 ###
-DELETE  http://localhost:3080/api/post/
+DELETE  http://localhost:3080/api/post/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5OTk0MjAyMCwiZXhwIjoxNjk5OTQzODIwfQ.mvDfQesNaaZ-R3bFkAlrlCRiJOn3-qFJWkl9-xiLF5A
 

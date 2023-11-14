@@ -1,16 +1,19 @@
 const express = require("express");
 const router = express.Router();
 const { Users, Posts, sequelize } = require("../models");
+const authmiddleware = require("../middlewares/auth_middleware");
+const { Op } = require("sequelize");
 
 // 상품 등록 API
-router.post("/posts", async (req, res) => {
+router.post("/posts", authmiddleware, async (req, res) => {
     const { title, content, price } = req.body;
+    const { userId } = res.locals.user;
 
     if (!title || !content || !price) {
         return res.status(400).json({ errorMessage: "형식이 올바르지 않습니다." });
     }
     await Posts.create({
-        UserId: 1,
+        UserId: userId,
         title,
         content,
         price,
@@ -75,14 +78,15 @@ router.get("/post/:productid", async (req, res) => {
 });
 
 // 상품 수정 API
-router.put("/post/:productid", async (req, res) => {
+router.put("/post/:productid", authmiddleware, async (req, res) => {
     const productid = req.params.productid;
     const { title, content, status, price } = req.body;
+    const { userId } = res.locals.user;
     const postOne = await Posts.findOne({ where: { productid } });
-    // console.log("========>>", postOne);
-    id = 1;
     try {
-        if (postOne.UserId !== id) {
+        if (!postOne) {
+            return res.status(404).json({ errorMessage: "상품 조회에 실패하였습니다" });
+        } else if (postOne.UserId !== userId) {
             return res.status(400).send({ errorMessage: "수정 할 권한이 없습니다." });
         } else if (!title || !content || !status || !price) {
             return res.status(400).send({ errorMessage: "데이터 형식이 올바르지 않습니다." });
@@ -93,28 +97,34 @@ router.put("/post/:productid", async (req, res) => {
                 status,
                 price,
             };
-            await Posts.update(insertOne, { where: { productid } });
+            await Posts.update(insertOne, {
+                where: { [Op.and]: [{ productid }, { UserId: userId }] },
+            });
             res.status(200).send({ message: "상품 정보 수정 완료" });
         }
     } catch (error) {
+        console.log(error);
         return res.status(400).send({ errorMessage: "상품 조회에 실패하였습니다." });
     }
 });
 
 // 상품 삭제 API
-router.delete("/post/:productid", async (req, res) => {
+router.delete("/post/:productid", authmiddleware, async (req, res) => {
     try {
         const productid = req.params.productid;
         const postOne = await Posts.findOne({ where: { productid } });
-        id = 1;
+        const { userId } = res.locals.user;
 
-        if (postOne.UserId !== id) {
+        if (postOne.UserId !== userId) {
             return res.status(400).send({ errorMessage: "삭제 할 권한이 없습니다." });
         } else {
-            await Posts.destroy({ where: { productid } });
+            await Posts.destroy({
+                where: { [Op.and]: [{ productid }, { UserId: userId }] },
+            });
             res.status(200).send({ message: "상품을 삭제하였습니다." });
         }
     } catch (error) {
+        console.log(error);
         return res.status(404).send({ errorMessage: "상품 조회에 실패하였습니다." });
     }
 });

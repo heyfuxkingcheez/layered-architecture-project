@@ -4,6 +4,7 @@ const authRouter = require("./routes/auth");
 const postsRouter = require("./routes/posts");
 const path = require("path");
 const morgan = require("morgan");
+const cookieparser = require("cookie-parser");
 require("dotenv").config();
 
 const { sequelize } = require("./models");
@@ -24,6 +25,7 @@ app.use(morgan.apply("dev")); //로그
 app.use(express.static(path.join(__dirname, "public"))); // 요청 시 기본 경로 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // url 파싱
+app.use(cookieparser());
 app.use("/api", [usersRouter, authRouter, postsRouter]);
 
 // 서버 실행

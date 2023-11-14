@@ -1,7 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 const { Users } = require("../models");
+const { checkHash } = require("../bcrypt/bcrypt");
 
 // 로그인 API
 router.post("/auth", async (req, res) => {
@@ -16,7 +19,9 @@ router.post("/auth", async (req, res) => {
         });
         return;
     }
-    if (String(password) !== existEmail.password) {
+
+    const result = await checkHash(password, existEmail.password);
+    if (!result) {
         res.status(400).json({
             errorMessage: "비밀번호가 틀립니다.",
         });
@@ -24,6 +29,11 @@ router.post("/auth", async (req, res) => {
     }
 
     // 로그인 성공
+    const token = jwt.sign({ userId: existEmail.userId }, process.env.TOKENKEY, { expiresIn: "30min" });
+    // jwt cookie로 할당
+    res.cookie("authorization", `Bearer ${token}`);
+    console.log(req.cookies);
+
     return res.status(200).json({ message: "로그인 성공!" });
 });
 

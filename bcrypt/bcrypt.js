@@ -1,3 +1,4 @@
+// bcrypt 암호화
 const bcrypt = require("bcrypt");
 
 const makeHash = async (password, saltRounds) => {
@@ -9,4 +10,9 @@ const main = async () => {
     console.log(hashedPassword);
 };
 
-module.exports = { main, makeHash };
+// 검증
+const checkHash = async (password, hashedPassword) => {
+    return await bcrypt.compare(password, hashedPassword); // (1)
+};
+
+module.exports = { main, makeHash, checkHash };
