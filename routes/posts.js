@@ -3,6 +3,7 @@ const router = express.Router();
 const { Users, Posts, sequelize } = require("../models");
 const authmiddleware = require("../middlewares/auth_middleware");
 const { Op } = require("sequelize");
+const url = require("url");
 
 // 상품 등록 API
 router.post("/posts", authmiddleware, async (req, res) => {
@@ -23,7 +24,20 @@ router.post("/posts", authmiddleware, async (req, res) => {
 
 // 상품 목록 조회 API
 router.get("/posts", async (req, res) => {
+    let urlData = req.url;
+    let queryData = url.parse(urlData, true).query;
+    let sortSTR = String(queryData.sort);
     try {
+        let val = "desc";
+
+        if (sortSTR.toLowerCase() === "asc") {
+            val = "asc";
+        } else if (sortSTR.toLowerCase() === "desc" || sortSTR === null) {
+            val;
+        } else {
+            return res.status(400).json({ errorMessage: "잘못된 경로 입니다." });
+        }
+
         const allPosts = await Posts.findAll({
             attributes: [
                 "productId",
@@ -40,10 +54,11 @@ router.get("/posts", async (req, res) => {
                     attributes: [],
                 },
             ],
-            order: [["createdAt", "desc"]],
+            order: [["createdAt", val]],
         });
         return res.status(200).json({ allPosts });
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ errorMessage: "작성된 글이 없습니다." });
     }
 });
@@ -124,7 +139,6 @@ router.delete("/post/:productid", authmiddleware, async (req, res) => {
             res.status(200).send({ message: "상품을 삭제하였습니다." });
         }
     } catch (error) {
-        console.log(error);
         return res.status(404).send({ errorMessage: "상품 조회에 실패하였습니다." });
     }
 });

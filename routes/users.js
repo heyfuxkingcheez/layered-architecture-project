@@ -75,7 +75,6 @@ router.get("/users/:userid", authmiddleware, async (req, res) => {
             return res.json(userDetail);
         }
     } catch (error) {
-        console.log(error);
         res.status(400).json({ errorMessage: "회원 정보가 없습니다." });
         return;
     }

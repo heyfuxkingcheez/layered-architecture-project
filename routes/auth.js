@@ -32,7 +32,6 @@ router.post("/auth", async (req, res) => {
     const token = jwt.sign({ userId: existEmail.userId }, process.env.TOKENKEY, { expiresIn: "3min" });
     // jwt cookie로 할당
     res.cookie("authorization", `Bearer ${token}`);
-    console.log(req.cookies);
 
     return res.status(200).json({ message: "로그인 성공!" });
 });
