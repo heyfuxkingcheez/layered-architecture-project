@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const authmiddleware = require("../middlewares/auth_middleware");
 
 const { Users } = require("../models");
 const { makeHash } = require("../bcrypt/bcrypt");
@@ -56,22 +57,27 @@ router.post("/users", async (req, res) => {
 });
 
 // 회원 정보 조회
-router.get("/users/:userid", async (req, res) => {
+router.get("/users/:userid", authmiddleware, async (req, res) => {
     const userid = req.params.userid;
     const usersOne = await Users.findOne({ where: { userid } });
+    const { userId } = res.locals.user;
     try {
-        const usersOne = await Users.findOne({ where: { userid } });
-        const userDetail = {
-            userid: usersOne.userid,
-            email: usersOne.email,
-            nickname: usersOne.nickname,
-            createdAt: usersOne.createdAt,
-        };
-        res.json(userDetail);
-        console.log(res.cookie);
+        if (usersOne.userId !== userId) {
+            res.status(400).json({ errorMessage: "비정상적인 경로 입니다." });
+            return;
+        } else {
+            const userDetail = {
+                userId: usersOne.userId,
+                email: usersOne.email,
+                nickname: usersOne.nickname,
+                createdAt: usersOne.createdAt,
+            };
+            return res.json(userDetail);
+        }
     } catch (error) {
         console.log(error);
         res.status(400).json({ errorMessage: "회원 정보가 없습니다." });
+        return;
     }
 });
 

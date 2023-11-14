@@ -13,9 +13,10 @@ Content-Type: application/json
 # 회원정보 조회
 ###
 GET http://localhost:3080/api/users/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiLrrLTsiqjrgrTsmqnsnbzquYzsmpQ_IiwiaWF0IjoxNjk5NDA2NzIwfQ.mGTzT--8yn7ysZXhMCzrVJobYSXGIslVXlaM65Eh7CM
 
 # 로그인
-###
+### 
 POST http://localhost:3080/api/auth
 Content-Type: application/json
 
@@ -42,12 +43,12 @@ GET http://localhost:3080/api/posts
 
 # 상품 상세 조회
 ###
-GET http://localhost:3080/api/post/2
+GET http://localhost:3080/api/post/5
 Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/1
+PUT http://localhost:3080/api/post/5
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5OTk0MjAyMCwiZXhwIjoxNjk5OTQzODIwfQ.mvDfQesNaaZ-R3bFkAlrlCRiJOn3-qFJWkl9-xiLF5A
 Content-Type: application/json
 
@@ -60,6 +61,6 @@ Content-Type: application/json
 
 # 상품 삭제
 ###
-DELETE  http://localhost:3080/api/post/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY5OTk0MjAyMCwiZXhwIjoxNjk5OTQzODIwfQ.mvDfQesNaaZ-R3bFkAlrlCRiJOn3-qFJWkl9-xiLF5A
+DELETE  http://localhost:3080/api/post/5
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJrZXkiOiLrrLTsiqjrgrTsmqnsnbzquYzsmpQ_IiwiaWF0IjoxNjk5NDA2NzIwfQ.mGTzT--8yn7ysZXhMCzrVJobYSXGIslVXlaM65Eh7CM
 

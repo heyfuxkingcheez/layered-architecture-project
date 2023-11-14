@@ -21,7 +21,7 @@ sequelize
         console.error(err);
     });
 
-app.use(morgan.apply("dev")); //로그
+app.use(morgan("dev")); //로그
 app.use(express.static(path.join(__dirname, "public"))); // 요청 시 기본 경로 설정
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // url 파싱
