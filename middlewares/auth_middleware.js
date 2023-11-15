@@ -25,10 +25,7 @@ module.exports = async (req, res, next) => {
         }
         res.locals.user = user;
         next();
-    } catch (error) {
-        res.clearCookie("authorization");
-        return res.status(401).json({
-            message: "로그인 후 이용 가능합니다.",
-        });
+    } catch (err) {
+        next(err);
     }
 };

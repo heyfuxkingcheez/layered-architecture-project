@@ -21,12 +21,19 @@ sequelize
         console.error(err);
     });
 
-app.use(morgan("dev")); //로그
-app.use(express.static(path.join(__dirname, "public"))); // 요청 시 기본 경로 설정
-app.use(express.json());
-app.use(express.urlencoded({ extended: false })); // url 파싱
-app.use(cookieparser());
+app.use(
+    morgan("dev"), // 로그
+    express.static(path.join(__dirname, "public")), // 요청 시 기본 경로 설정
+    express.json(),
+    express.urlencoded({ extended: false }), // url 파싱
+    cookieparser()
+);
 app.use("/api", [usersRouter, authRouter, postsRouter]);
+
+// 에러 처리 미들웨어
+app.use((err, req, res, next) => {
+    res.status(400).json({ errorMessage: "로그인 후 이용 가능합니다." });
+});
 
 // 서버 실행
 app.listen(app.get("port"), () => {

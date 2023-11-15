@@ -102,7 +102,7 @@ router.put("/post/:productid", authmiddleware, async (req, res) => {
             return res.status(404).json({ errorMessage: "상품 조회에 실패하였습니다" });
         } else if (postOne.UserId !== userId) {
             return res.status(400).send({ errorMessage: "수정 할 권한이 없습니다." });
-        } else if (!title || !content || !status || !price) {
+        } else if (!title || !content || !status || !price || status !== "SOLD_OUT") {
             return res.status(400).send({ errorMessage: "데이터 형식이 올바르지 않습니다." });
         } else {
             const insertOne = {
