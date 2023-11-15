@@ -63,7 +63,7 @@
 
 # 📜 API
 
-> [👉 API 명세서 링크]([https://www.erdcloud.com/p/FSvRMSTyDhFsu3igX](https://www.notion.so/cd88263d7588429ba53507fd2cf486c4?v=89235766e7e0453f925be084ab48a9de&pvs=4)
+> [👉 API 명세서 링크](https://www.notion.so/cd88263d7588429ba53507fd2cf486c4?v=89235766e7e0453f925be084ab48a9de&pvs=4)
 
 # 📑 ERD link
 
