@@ -4,15 +4,15 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "asdd2@naver.com",
-    "nickname" : "최수영",
+    "email": "asdd1@naver.com",
+    "nickname" : "정기욱",
     "password" : "asd123",
     "confirmPassword" : "asd123"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/3
+GET http://localhost:3080/api/users/2
 
 # 로그인
 ### 
