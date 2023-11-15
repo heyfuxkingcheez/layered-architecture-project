@@ -63,7 +63,8 @@
 
 ## ERD link
 
-<iframe width="600" height="336" src="https://www.erdcloud.com/p/FSvRMSTyDhFsu3igX" frameborder="0" allowfullscreen></iframe>
+![image](https://github.com/heyfuxkingcheez/Node-skilled-project/assets/143869354/b6156489-ee12-42fb-8e57-77332e2cfc07)
+
 
 <br />
 
