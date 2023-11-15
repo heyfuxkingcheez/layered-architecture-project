@@ -40,8 +40,8 @@
 ┃ ┗ 📜index.js
 ┃ ┗ 📜posts.js
 ┃ ┗ 📜users.js
-┣📂models
-┃ ┗ 📜index.js
+┣📂routes
+┃ ┗ 📜auth.js
 ┃ ┗ 📜posts.js
 ┃ ┗ 📜users.js
 ┣📂seaders
