@@ -96,7 +96,7 @@
 
 -   [x] MySQL, MySQL RDS 설치
 -   [x] MySQL생성 및 연결
--   [x] 모델스, 마이그레이션 확인 테이블 생성
+-   [x] models, migration 확인 테이블 생성
 
 ## 3. API 구현하기
 
