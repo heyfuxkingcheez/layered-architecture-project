@@ -1,18 +1,22 @@
 ## CRUD_Node_project
 
-> Goal: "Node.js와 express를 활용한 나만의 내배캠 장터 백엔드 서버 만들기"
+> Goal: RDB(MySQL) 데이터 모델링, JWT, Express Middleware를 이용한 인증 로직 추가
 
 <br />
 
-> [👉배포 링크](http://woogi.shop/api/products)
+> [👉배포 링크](http://woogi.shop:3080/api/posts)
 
 ## 구현 목표
 
--   Node.js를 이용해서 웹 프레임워크를 구현.
--   MongoDB와 mongoose를 이용하여 원하는 데이터베이스를 설계하고 활용
--   Express.js를 기반으로 CRUD(Create, Read, Update, Delete) 기능이 포함된 REST API 구현.
--   AWS EC2에 Express.js 를 이용한 웹 서비스를 배포
--   API 리스트를 작성, 백엔드 서버를 설계
+1. **API 명세서를 작성**하여, ****최종적 결과물을 미리 파악합니다.
+2. **MySQL, Sequelize를** 이용해 데이터베이스를 설계하고 활용합니다.
+    - 데이터 모델링을 통해 **ERD 작성**
+    - Sequelize를 이용한 **마이그레이션 코드 및 스키마 코드 작성**
+    - **JOIN**을 통해 다른 Table의 데이터와 결합
+3. **인증 관련 기능을 구현**합니다.
+    - **JWT**(AccessToken)의 이해
+    - 회원가입 API, 로그인 API, 내 정보 조회 API, 인증 **Middleware** 구현
+    - 상품 관련 기능에 인증 로직 추가
 
 <br />
 
@@ -66,27 +70,38 @@
 ## To Do List
 
 ### 1. Directory setting
-
--   [x] .env
--   [x] .prettierrc
--   [x] .gitignore
--   [x] express
+-   [x] GIT 레포지 생성
+-   [x] 모델링을 통해 ERD 작성
+-   [x] EXPRESS
+-   [x] YARN
+-   [x] db 클라우드 서비스 RDS사용
+-   [x] 시퀄라이즈
+-   [x] dotenv
+-   [x] gitignore
+-   [x] prettierrc
 -   [x] nodemon
+-   [ ] SWAGGER API 명세서
 
 ### 2. 데이터베이스 연결
 
--   [x] mongodb, mongoose 설치
--   [x] Atlas 설치, 연결
--   [x] 스키마 모델 설정, 확인
+-   [x] MySQL, MySQL RDS 설치
+-   [x] MySQL생성 및 연결
+-   [x] 모델스, 마이그레이션 확인 테이블 생성
 
 ### 3. API 구현하기
 
--   [x] 상품 작성 POST
--   [x] 상품 목록 조회 GET
--   [x] 상품 상세 조회 GET
--   [x] 상품 정보 수정 PUT
--   [x] 상품 삭제 DELETE
+-   [x] 회원가입 API
+-   [x] 로그인 API
+-   [x] 로그아웃 API
+-   [x] 상품 생성 API
+-   [x] 상품 수정 API
+-   [x] 상품 삭제 API
+-   [X] 상품 목록 API
+-   [X] 상품 상세 API
+-   [X] 인증 미들웨어
 
 ### 4. AWS 배포
 
 -   [x] AWS EC2 배포
+-   [X] PM2
+
