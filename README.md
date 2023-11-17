@@ -10,7 +10,7 @@
 
 # 📃구현 목표
 
-1. **API 명세서를 작성**하여, \*\*\*\*최종적 결과물을 미리 파악합니다.
+1. **API 명세서를 작성하여**, 최종적 결과물을 미리 파악합니다.
 2. **MySQL, Sequelize를** 이용해 데이터베이스를 설계하고 활용합니다.
     - 데이터 모델링을 통해 **ERD 작성**
     - Sequelize를 이용한 **마이그레이션 코드 및 스키마 코드 작성**
@@ -40,8 +40,8 @@
 ┃ ┗ 📜index.js
 ┃ ┗ 📜posts.js
 ┃ ┗ 📜users.js
-┣📂models
-┃ ┗ 📜index.js
+┣📂routes
+┃ ┗ 📜auth.js
 ┃ ┗ 📜posts.js
 ┃ ┗ 📜users.js
 ┣📂seaders
@@ -63,11 +63,14 @@
 
 # 📜 API
 
-> [👉 SWAGGER 링크](https://www.erdcloud.com/p/FSvRMSTyDhFsu3igX)
+<br>
+
+> [👉 API 명세서 링크](https://www.notion.so/cd88263d7588429ba53507fd2cf486c4?v=89235766e7e0453f925be084ab48a9de&pvs=4)
+
 
 # 📑 ERD link
 
-![image](https://github.com/heyfuxkingcheez/Node-skilled-project/assets/143869354/b6156489-ee12-42fb-8e57-77332e2cfc07)
+![image](https://github.com/heyfuxkingcheez/Node-skilled-project/assets/143869354/917d6971-2737-4b77-ae66-50631c8e69b3)
 
 > [👉 ERD Cloud 링크](https://www.erdcloud.com/p/FSvRMSTyDhFsu3igX)
 
@@ -93,7 +96,7 @@
 
 -   [x] MySQL, MySQL RDS 설치
 -   [x] MySQL생성 및 연결
--   [x] 모델스, 마이그레이션 확인 테이블 생성
+-   [x] models, migration 확인 테이블 생성
 
 ## 3. API 구현하기
 
