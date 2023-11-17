@@ -9,6 +9,7 @@ require("dotenv").config();
 
 const { sequelize } = require("./models");
 const app = express();
+const ErrorHandler = require("./middlewares/ErrorHandler");
 
 app.set("port", process.env.PORT);
 
@@ -29,11 +30,8 @@ app.use(
     cookieparser()
 );
 app.use("/api", [usersRouter, authRouter, postsRouter]);
-
+app.use(ErrorHandler);
 // 에러 처리 미들웨어
-app.use((err, req, res, next) => {
-    res.status(400).json({ errorMessage: "로그인 후 이용 가능합니다." });
-});
 
 // 서버 실행
 app.listen(app.get("port"), () => {

@@ -1,27 +1,27 @@
 # 회원가입 POST
-### 
+###
 POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "asdd1`@naver.com",
-    "nickname" : "정기욱",
-    "password" : "asd123",
-    "confirmPassword" : "asd123"
+    "email": "asdd2@naver.com",
+    "nickname" : "유은지",
+    "password" : "asd152",
+    "confirmPassword" : "asd152"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/1
+GET http://localhost:3080/api/users/3
 
 # 로그인
-### 
+###
 POST http://localhost:3080/api/auth
 Content-Type: application/json
 
 {
-    "email": "asdd1@naver.com",
-    "password": "asd123"
+    "email": "asdd2@naver.com",
+    "password": "asd152"
 }
 
 # 로그아웃
@@ -30,27 +30,28 @@ GET http://localhost:3080/api/auth/logout
 
 
 # 상품 등록
-###ya
+###
 POST http://localhost:3080/api/posts
 Content-Type: application/json
 
 {
     "title" : "토큰값이 왜이럴까",
     "content" : "항상 총은 말보다 옳다",
-    "price" : 12000
+    "price" : 10000
 }
 
 # 상품 목록 조회
 ###
 GET http://localhost:3080/api/posts
+
 # 상품 상세 조회
 ###
-GET http://localhost:3080/api/post/2
+GET http://localhost:3080/api/post/4
 Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/14
+PUT http://localhost:3080/api/post/4
 Content-Type: application/json
 
 {
