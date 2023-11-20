@@ -12,16 +12,14 @@ const {
     NotMatchedIdError,
     ValidationError,
 } = require("../lib/CustomError");
+const { postSchemaValidation } = require("../lib/joi-validation");
 
 // 상품 등록 API
 router.post("/posts", authmiddleware, async (req, res, next) => {
-    const { title, content, price } = req.body;
     const { userId } = res.locals.user;
     try {
-        if (!title || !content || price <= 0) {
-            const err = new ValidationError();
-            throw err;
-        }
+        const { title, content, price } = await postSchemaValidation.validateAsync(req.body);
+
         await Posts.create({
             UserId: userId,
             title,
@@ -116,18 +114,15 @@ router.get("/post/:productid", async (req, res, next) => {
 // 상품 수정 API
 router.put("/post/:productid", authmiddleware, async (req, res, next) => {
     const productid = req.params.productid;
-    const { title, content, status, price } = req.body;
     const { userId } = res.locals.user;
     const postOne = await Posts.findOne({ where: { productid } });
     try {
+        const { title, content, status, price } = await postSchemaValidation.validateAsync(req.body);
         if (!postOne) {
             const err = new PostNotExistError();
             throw err;
         } else if (postOne.UserId !== userId) {
             const err = new NotMatchedIdError();
-            throw err;
-        } else if (!title || !content || !status || !price || status !== "SOLD_OUT") {
-            const err = new ValidationError();
             throw err;
         } else {
             const insertOne = {

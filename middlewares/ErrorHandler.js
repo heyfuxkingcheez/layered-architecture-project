@@ -34,6 +34,28 @@ const ErrorHandler = (err, req, res, next) => {
         }
         if (req.method === "PUT") {
             // 게시글 수정 api Error handling\
+            if (err.name === "ValidationError") {
+                if (err.details[0].path[0] === "title") {
+                    return res.status(412).json({
+                        errorMessage: "제목을 입력하세요.",
+                    });
+                }
+                if (err.details[0].path[0] === "content") {
+                    return res.status(412).json({
+                        errorMessage: "내용을 입력하세요.",
+                    });
+                }
+                if (err.details[0].path[0] === "price") {
+                    return res.status(412).json({
+                        errorMessage: "가격을 입력하세요.",
+                    });
+                }
+                if (err.details[0].path[0] === "status") {
+                    return res.status(412).json({
+                        errorMessage: "판매 상태를 입력하세요.",
+                    });
+                }
+            }
             if (err.name === "PostNotExistError") {
                 return res.status(400).json({ errorMessage: "해당 게시글이 존재하지 않습니다." });
             }
@@ -68,7 +90,21 @@ const ErrorHandler = (err, req, res, next) => {
         // 게시글 등록 api Error handling
         if (req.method === "POST") {
             if (err.name === "ValidationError") {
-                return res.status(400).json({ errorMessage: "데이터 형식이 올바르지 않습니다." });
+                if (err.details[0].path[0] === "title") {
+                    return res.status(412).json({
+                        errorMessage: "제목을 입력하세요.",
+                    });
+                }
+                if (err.details[0].path[0] === "content") {
+                    return res.status(412).json({
+                        errorMessage: "내용을 입력하세요.",
+                    });
+                }
+                if (err.details[0].path[0] === "price") {
+                    return res.status(412).json({
+                        errorMessage: "가격을 입력하세요.",
+                    });
+                }
             }
         }
     }
@@ -77,21 +113,35 @@ const ErrorHandler = (err, req, res, next) => {
     // 회원 가입 api Error handling
     if (req.route.path === "/users") {
         if (err.name === "ValidationError") {
-            // 패스워드 유효성 검사
-            if (req.body.password !== req.body.confirmPassword) {
-                return res.status(400).json({
-                    errorMessage: "패스워드가 패스워드 확인과 다릅니다.",
+            if (err.details[0].path[0] === "password") {
+                return res.status(412).json({
+                    errorMessage: "비밀번호는 6자리 이상이어야 합니다.",
                 });
             }
-            if (req.body.password.length < 6) {
-                return res.status(400).json({
-                    errorMessage: "패스워드는 6자리 이상이어야 합니다.",
+            if (err.details[0].path[0] === "confirmPassword") {
+                return res.status(412).json({
+                    errorMessage: "비밀번호가 비밀번호 확인과 다릅니다.",
+                });
+            }
+            if (err.details[0].path[0] === "email") {
+                return res.status(412).json({
+                    errorMessage: "이메일을 입력하세요.",
+                });
+            }
+            if (err.details[0].path[0] === "nickname") {
+                return res.status(412).json({
+                    errorMessage: "닉네임을 입력하세요.",
                 });
             }
         }
         if (err.name === "NotUniqueValue") {
-            return res.status(400).json({
+            return res.status(412).json({
                 errorMessage: "이메일 또는 닉네임이 이미 사용 중 입니다.",
+            });
+        }
+        if (req.body.password !== req.body.confirmPassword) {
+            return res.status(412).json({
+                errorMessage: "비밀번호가 비밀번호 확인과 다릅니다.",
             });
         }
     }
@@ -112,8 +162,20 @@ const ErrorHandler = (err, req, res, next) => {
         }
         if (err.name === "NotMatchPWDError") {
             return res.status(400).json({
-                errorMessage: "비밀번호가 틀립니다.",
+                errorMessage: "비밀번호가 다릅니다.",
             });
+        }
+        if (err.name === "ValidationError") {
+            if (err.details[0].path[0] === "password") {
+                return res.status(412).json({
+                    errorMessage: "비밀번호를 입력하세요.",
+                });
+            }
+            if (err.details[0].path[0] === "email") {
+                return res.status(412).json({
+                    errorMessage: "이메일을 입력하세요.",
+                });
+            }
         }
     }
     // 로그아웃 api Error handling

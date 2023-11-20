@@ -4,15 +4,15 @@ POST http://localhost:3080/api/users
 Content-Type: application/json
 
 {
-    "email": "asdd2@naver.com",
-    "nickname" : "유은지",
-    "password" : "asd152",
-    "confirmPassword" : "asd152"
+    "email": "asd65@naver.com",
+    "nickname" : "키자루",
+    "password" : "asd151",
+    "confirmPassword" : "asd151"
 }
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/3
+GET http://localhost:3080/api/users/2
 
 # 로그인
 ###
@@ -20,8 +20,8 @@ POST http://localhost:3080/api/auth
 Content-Type: application/json
 
 {
-    "email": "asdd2@naver.com",
-    "password": "asd152"
+    "email": "asd65@naver.com",
+    "password": "asd151"
 }
 
 # 로그아웃
@@ -35,9 +35,9 @@ POST http://localhost:3080/api/posts
 Content-Type: application/json
 
 {
-    "title" : "토큰값이 왜이럴까",
+    "title" : "아니 이건 아니잖아",
     "content" : "항상 총은 말보다 옳다",
-    "price" : 10000
+    "price" : "40000"
 }
 
 # 상품 목록 조회
@@ -51,18 +51,18 @@ Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/4
+PUT http://localhost:3080/api/post/1
 Content-Type: application/json
 
 {
     "title" : "AKM-47",
     "content" : "더 큰 총알은 더 큰 설득력",
-    "status" : "SOLD_OUT",
-    "price" : 40000
+    "status" : "ㄴㅁㅇ",
+    "price" : "40000"
 }
 
 # 상품 삭제
 ###
-DELETE  http://localhost:3080/api/post/9
+DELETE  http://localhost:3080/api/post/2
 
 

@@ -32,7 +32,7 @@ module.exports = {
                 defaultValue: "FOR_SALE",
             },
             price: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.STRING,
                 allowNull: false,
             },
             createdAt: {

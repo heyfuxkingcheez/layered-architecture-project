@@ -6,23 +6,23 @@ const authmiddleware = require("../middlewares/auth_middleware");
 
 const { Users } = require("../models");
 const { makeHash } = require("../bcrypt/bcrypt");
-const { ValidationError, NotUniqueValue, UsersInquiryError } = require("../lib/CustomError");
+const { NotUniqueValue, UsersInquiryError } = require("../lib/CustomError");
+const { userSchemaValidation, userLoginSchemaValidation } = require("../lib/joi-validation");
 
 // 회원가입 API
 router.post("/users", async (req, res, next) => {
-    const { email, nickname, password, confirmPassword } = req.body;
-
     try {
+        const { email, nickname, password, confirmPassword } = await userSchemaValidation.validateAsync(req.body);
         // 패스워드 유효성 검사
         if (password !== confirmPassword) {
-            const err = new ValidationError();
+            const err = new NotMatchPWDError();
             throw err;
         }
 
-        if (password.length < 6) {
-            const err = new ValidationError();
-            throw err;
-        }
+        // if (password.length < 6) {
+        //     const err = new ValidationError();
+        //     throw err;
+        // }
 
         // email 또는  nickname이 동일한 데이터가 있는지 확인하기 위해 가져온다.
         const existEmail = await Users.findOne({ where: { email } });
@@ -42,7 +42,9 @@ router.post("/users", async (req, res, next) => {
         const main = async () => {
             const hashedPassword = await makeHash(password, saltRounds);
             await Users.create({ email, nickname, password: hashedPassword });
-            res.status(200).json({ message: "회원가입이 완료 되었습니다." });
+
+            const user = await Users.findOne({ attributes: ["userId", "email", "nickname"], where: { email } });
+            res.status(201).json({ message: "회원가입이 완료 되었습니다.", data: user });
         };
         main();
     } catch (err) {
@@ -55,7 +57,7 @@ router.get("/users/:userid", authmiddleware, async (req, res, next) => {
     const userid = req.params.userid;
     const usersOne = await Users.findOne({ where: { userid } });
     const { userId } = res.locals.user;
-    console.log(typeof usersOne.userId, typeof userId);
+    console.log(usersOne, typeof userId);
     try {
         if (usersOne.userId !== userId) {
             const err = new UsersInquiryError();
