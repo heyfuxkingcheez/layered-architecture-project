@@ -28,10 +28,13 @@
 📦Node-Skilled-Project
 ┣📂bcrypt
 ┃ ┗ 📜bcrypt.js
+┣📂lib
+┃ ┗ 📜CustomError.js
 ┣📂config
 ┃ ┗ 📜config.js
 ┣📂middlewares
 ┃ ┗ 📜auth_middleware.js
+┃ ┗ 📜ErrorHandler.js
 ┣📂migrations
 ┃ ┗ 📜20231110135910-create-users.js
 ┃ ┗ 📜20231110140656-create-posts.js
