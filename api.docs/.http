@@ -1,10 +1,10 @@
 # 회원가입 POST
 ###
-POST http://localhost:3080/api/users
+POST http://localhost:4050/api/users/signup
 Content-Type: application/json
 
 {
-    "email": "asd65@naver.com",
+    "email": "asd5@naver.com",
     "nickname" : "키자루",
     "password" : "asd151",
     "confirmPassword" : "asd151"
@@ -12,11 +12,11 @@ Content-Type: application/json
 
 # 회원정보 조회
 ###
-GET http://localhost:3080/api/users/2
+GET http://localhost:4050/api/users/5
 
 # 로그인
 ###
-POST http://localhost:3080/api/auth
+POST http://localhost:4050/api/auth
 Content-Type: application/json
 
 {
@@ -26,43 +26,43 @@ Content-Type: application/json
 
 # 로그아웃
 ###
-GET http://localhost:3080/api/auth/logout
+GET http://localhost:4050/api/auth/logout
 
 
 # 상품 등록
 ###
-POST http://localhost:3080/api/posts
+POST http://localhost:4050/api/posts
 Content-Type: application/json
 
 {
-    "title" : "아니 이건 아니잖아",
+    "title" : "HK-416",
     "content" : "항상 총은 말보다 옳다",
-    "price" : "40000"
+    "price" : "53000"
 }
 
 # 상품 목록 조회
 ###
-GET http://localhost:3080/api/posts
+GET http://localhost:4050/api/posts
 
 # 상품 상세 조회
 ###
-GET http://localhost:3080/api/post/4
+GET http://localhost:4050/api/post/4
 Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:3080/api/post/1
+PUT http://localhost:4050/api/post/5
 Content-Type: application/json
 
 {
     "title" : "AKM-47",
     "content" : "더 큰 총알은 더 큰 설득력",
-    "status" : "ㄴㅁㅇ",
+    "status" : "SOLD_OUT",
     "price" : "40000"
 }
 
 # 상품 삭제
 ###
-DELETE  http://localhost:3080/api/post/2
+DELETE  http://localhost:4050/api/post/2
 
 

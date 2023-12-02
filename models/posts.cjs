@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: "FOR_SALE",
             },
             price: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.STRING,
                 allowNull: false,
             },
             createdAt: {

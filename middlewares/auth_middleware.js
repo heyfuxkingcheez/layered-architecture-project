@@ -1,9 +1,14 @@
-const jwt = require("jsonwebtoken");
-const { Users } = require("../models");
-const dotenv = require("dotenv").config();
-const { TokenTypeUnMatch, TokenNotExistError, UserNotExistError } = require("../lib/CustomError");
+import jwt from "jsonwebtoken";
+import db from "../models/index.cjs";
+import {
+    TokenTypeUnMatch,
+    TokenNotExistError,
+    UserNotExistError,
+} from "../lib/CustomError.js";
+import { TOKENKEY } from "../constants/security.constant.js";
+let { Users } = db;
 
-module.exports = async (req, res, next) => {
+const auth_middleware = async (req, res, next) => {
     // console.log("여기는 미들웨어 입니다", req.cookies.authorization);
     try {
         const { authorization } = req.cookies;
@@ -19,7 +24,7 @@ module.exports = async (req, res, next) => {
             throw err;
         }
 
-        const decodedToken = jwt.verify(token, process.env.TOKENKEY);
+        const decodedToken = jwt.verify(token, TOKENKEY);
         const userId = decodedToken.userId;
         const user = await Users.findOne({ where: { userId } });
 
@@ -33,3 +38,5 @@ module.exports = async (req, res, next) => {
         next(err);
     }
 };
+
+export { auth_middleware };

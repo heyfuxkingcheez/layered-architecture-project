@@ -1,24 +1,25 @@
-const express = require("express");
-const router = express.Router();
-const { Users, Posts, sequelize } = require("../models");
-const authmiddleware = require("../middlewares/auth_middleware");
-const { Op } = require("sequelize");
-const url = require("url");
-
-const {
+import Router from "express";
+import db from "../models/index.cjs";
+import { auth_middleware } from "../middlewares/auth_middleware.js";
+import { Op } from "sequelize";
+import {
     PostNotExistError,
     PostsNotExistError,
     CantSortError,
     NotMatchedIdError,
-    ValidationError,
-} = require("../lib/CustomError");
-const { postSchemaValidation } = require("../lib/joi-validation");
+} from "../lib/CustomError.js";
+import { postSchemaValidation } from "../lib/joi-validation.js";
+
+const { Users, Posts, sequelize } = db;
+
+const postsRouter = Router();
 
 // 상품 등록 API
-router.post("/posts", authmiddleware, async (req, res, next) => {
+postsRouter.post("/posts", auth_middleware, async (req, res, next) => {
     const { userId } = res.locals.user;
     try {
-        const { title, content, price } = await postSchemaValidation.validateAsync(req.body);
+        const { title, content, price } =
+            await postSchemaValidation.validateAsync(req.body);
 
         await Posts.create({
             UserId: userId,
@@ -33,7 +34,7 @@ router.post("/posts", authmiddleware, async (req, res, next) => {
 });
 
 // 상품 목록 조회 API
-router.get("/posts", async (req, res, next) => {
+postsRouter.get("/posts", async (req, res, next) => {
     let querySTR = req.query.sort;
 
     try {
@@ -77,7 +78,7 @@ router.get("/posts", async (req, res, next) => {
 });
 
 // 상품 상세 조회 API
-router.get("/post/:productid", async (req, res, next) => {
+postsRouter.get("/post/:productid", async (req, res, next) => {
     const productid = req.params.productid;
     try {
         const postOne = await Posts.findOne({
@@ -112,12 +113,13 @@ router.get("/post/:productid", async (req, res, next) => {
 });
 
 // 상품 수정 API
-router.put("/post/:productid", authmiddleware, async (req, res, next) => {
+postsRouter.put("/post/:productid", auth_middleware, async (req, res, next) => {
     const productid = req.params.productid;
     const { userId } = res.locals.user;
     const postOne = await Posts.findOne({ where: { productid } });
     try {
-        const { title, content, status, price } = await postSchemaValidation.validateAsync(req.body);
+        const { title, content, status, price } =
+            await postSchemaValidation.validateAsync(req.body);
         if (!postOne) {
             const err = new PostNotExistError();
             throw err;
@@ -143,23 +145,28 @@ router.put("/post/:productid", authmiddleware, async (req, res, next) => {
 });
 
 // 상품 삭제 API
-router.delete("/post/:productid", authmiddleware, async (req, res, next) => {
-    try {
-        const productid = req.params.productid;
-        const postOne = await Posts.findOne({ where: { productid } });
-        const { userId } = res.locals.user;
+postsRouter.delete(
+    "/post/:productid",
+    auth_middleware,
+    async (req, res, next) => {
+        try {
+            const productid = req.params.productid;
+            const postOne = await Posts.findOne({ where: { productid } });
+            const { userId } = res.locals.user;
 
-        if (postOne.UserId !== userId) {
-            const err = new NotMatchedIdError();
-            throw err;
-        } else {
-            await Posts.destroy({
-                where: { [Op.and]: [{ productid }, { UserId: userId }] },
-            });
-            res.status(200).send({ message: "상품을 삭제하였습니다." });
+            if (postOne.UserId !== userId) {
+                const err = new NotMatchedIdError();
+                throw err;
+            } else {
+                await Posts.destroy({
+                    where: { [Op.and]: [{ productid }, { UserId: userId }] },
+                });
+                res.status(200).send({ message: "상품을 삭제하였습니다." });
+            }
+        } catch (err) {
+            next(err);
         }
-    } catch (err) {
-        next(err);
     }
-});
-module.exports = router;
+);
+
+export { postsRouter };

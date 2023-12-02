@@ -1,18 +1,19 @@
-const express = require("express");
-const router = express.Router();
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const authmiddleware = require("../middlewares/auth_middleware");
+import { Router } from "express";
+import { auth_middleware } from "../middlewares/auth_middleware.js";
+import { PASSWORD_SALT_ROUNDS } from "../constants/security.constant.js";
+import db from "../models/index.cjs";
+import { NotUniqueValue, UsersInquiryError } from "../lib/CustomError.js";
+import { userSchemaValidation } from "../lib/joi-validation.js";
+import { makeHash } from "../bcrypt/bcrypt.js";
 
-const { Users } = require("../models");
-const { makeHash } = require("../bcrypt/bcrypt");
-const { NotUniqueValue, UsersInquiryError } = require("../lib/CustomError");
-const { userSchemaValidation, userLoginSchemaValidation } = require("../lib/joi-validation");
+let { Users } = db;
 
+const usersRouter = Router();
 // 회원가입 API
-router.post("/users", async (req, res, next) => {
+usersRouter.post("/users/signup", async (req, res, next) => {
     try {
-        const { email, nickname, password, confirmPassword } = await userSchemaValidation.validateAsync(req.body);
+        const { email, nickname, password, confirmPassword } =
+            await userSchemaValidation.validateAsync(req.body);
         // 패스워드 유효성 검사
         if (password !== confirmPassword) {
             const err = new NotMatchPWDError();
@@ -38,13 +39,22 @@ router.post("/users", async (req, res, next) => {
         }
 
         // 회원가입 성공
-        const saltRounds = 12;
+
         const main = async () => {
-            const hashedPassword = await makeHash(password, saltRounds);
+            const hashedPassword = await makeHash(
+                password,
+                PASSWORD_SALT_ROUNDS
+            );
             await Users.create({ email, nickname, password: hashedPassword });
 
-            const user = await Users.findOne({ attributes: ["userId", "email", "nickname"], where: { email } });
-            res.status(201).json({ message: "회원가입이 완료 되었습니다.", data: user });
+            const user = await Users.findOne({
+                attributes: ["userId", "email", "nickname"],
+                where: { email },
+            });
+            res.status(201).json({
+                message: "회원가입이 완료 되었습니다.",
+                data: user,
+            });
         };
         main();
     } catch (err) {
@@ -53,7 +63,7 @@ router.post("/users", async (req, res, next) => {
 });
 
 // 회원 정보 조회
-router.get("/users/:userid", authmiddleware, async (req, res, next) => {
+usersRouter.get("/users/:userid", auth_middleware, async (req, res, next) => {
     const userid = req.params.userid;
     const usersOne = await Users.findOne({ where: { userid } });
     const { userId } = res.locals.user;
@@ -76,4 +86,4 @@ router.get("/users/:userid", authmiddleware, async (req, res, next) => {
     }
 });
 
-module.exports = router;
+export { usersRouter };
