@@ -5,7 +5,7 @@ import {
     TokenNotExistError,
     UserNotExistError,
 } from "../lib/CustomError.js";
-import { TOKENKEY } from "../constants/security.constant.js";
+import { TOKENKEY } from "../../constants/security.constant.js";
 let { Users } = db;
 
 const auth_middleware = async (req, res, next) => {

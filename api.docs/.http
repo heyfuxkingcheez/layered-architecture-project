@@ -12,7 +12,7 @@ Content-Type: application/json
 
 # 회원정보 조회
 ###
-GET http://localhost:4050/api/users/5
+GET http://localhost:4050/api/users/1
 
 # 로그인
 ###
@@ -20,7 +20,7 @@ POST http://localhost:4050/api/auth
 Content-Type: application/json
 
 {
-    "email": "asd65@naver.com",
+    "email": "asd5@naver.com",
     "password": "asd151"
 }
 

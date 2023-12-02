@@ -4,7 +4,7 @@ import "dotenv/config";
 import {
     JWT_ACCESS_TOKEN_EXPIRES_IN,
     TOKENKEY,
-} from "../constants/security.constant.js";
+} from "../../constants/security.constant.js";
 import db from "../models/index.cjs";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { NotUniqueValue, NotMatchPWDError } from "../lib/CustomError.js";

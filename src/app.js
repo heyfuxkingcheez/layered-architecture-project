@@ -1,16 +1,17 @@
 import express from "express";
-import { PORT } from "./constants/app.constant.js";
 import cookieParser from "cookie-parser";
 import path from "path";
 import morgan from "morgan";
-import { usersRouter } from "./routes/users.js";
-import { authRouter } from "./routes/auth.js";
-import { postsRouter } from "./routes/posts.js";
+import { usersRouter } from "./routers/users.js";
+import { authRouter } from "./routers/auth.js";
+import { postsRouter } from "./routers/posts.js";
 import { ErrorHandler } from "./middlewares/ErrorHandler.js";
 import { fileURLToPath } from "url";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
-
 const app = express();
 
 app.use(
@@ -25,6 +26,6 @@ app.use(ErrorHandler);
 // 에러 처리 미들웨어
 
 // 서버 실행
-app.listen(PORT, () => {
-    console.log(`SERVER ON`, Number(PORT), `...`);
+app.listen(process.env.PORT, () => {
+    console.log(`SERVER ON`, Number(process.env.PORT), `...`);
 });
