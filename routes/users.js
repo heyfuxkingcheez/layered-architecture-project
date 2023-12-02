@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
-import { PASSWORD_SALT_ROUNDS } from "../constants/security.constant.js";
 import db from "../models/index.cjs";
 import { NotUniqueValue, UsersInquiryError } from "../lib/CustomError.js";
 import { userSchemaValidation } from "../lib/joi-validation.js";
-import { makeHash } from "../bcrypt/bcrypt.js";
 
 let { Users } = db;
 
@@ -41,11 +39,7 @@ usersRouter.post("/users/signup", async (req, res, next) => {
         // 회원가입 성공
 
         const main = async () => {
-            const hashedPassword = await makeHash(
-                password,
-                PASSWORD_SALT_ROUNDS
-            );
-            await Users.create({ email, nickname, password: hashedPassword });
+            await Users.create({ email, nickname, password });
 
             const user = await Users.findOne({
                 attributes: ["userId", "email", "nickname"],
@@ -67,7 +61,6 @@ usersRouter.get("/users/:userid", auth_middleware, async (req, res, next) => {
     const userid = req.params.userid;
     const usersOne = await Users.findOne({ where: { userid } });
     const { userId } = res.locals.user;
-    console.log(usersOne, typeof userId);
     try {
         if (usersOne.userId !== userId) {
             const err = new UsersInquiryError();

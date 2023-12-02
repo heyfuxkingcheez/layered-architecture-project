@@ -6,7 +6,6 @@ import {
     TOKENKEY,
 } from "../constants/security.constant.js";
 import db from "../models/index.cjs";
-import { checkHash } from "../bcrypt/bcrypt.js";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { NotUniqueValue, NotMatchPWDError } from "../lib/CustomError.js";
 import { userLoginSchemaValidation } from "../lib/joi-validation.js";
@@ -21,8 +20,7 @@ authRouter.post("/auth", async (req, res, next) => {
             await userLoginSchemaValidation.validateAsync(req.body);
         console.log(password);
         const existEmail = await Users.findOne({ where: { email } });
-        const result = await checkHash(password, existEmail.password);
-        console.log(existEmail.password);
+        const existPassword = await Users.findOne({ where: { password } });
 
         // email 또는 password가 데이터베이스에 존재하는지 확인
         if (!existEmail) {
@@ -30,7 +28,7 @@ authRouter.post("/auth", async (req, res, next) => {
             throw err;
         }
 
-        if (!result) {
+        if (!existPassword) {
             const err = new NotMatchPWDError();
             throw err;
         }
