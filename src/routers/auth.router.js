@@ -5,32 +5,35 @@ import {
     JWT_ACCESS_TOKEN_EXPIRES_IN,
     TOKENKEY,
 } from "../../constants/security.constant.js";
-import db from "../models/index.cjs";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
-import { NotUniqueValue, NotMatchPWDError } from "../lib/CustomError.js";
 import { userLoginSchemaValidation } from "../lib/joi-validation.js";
-
-let { Users } = db;
+import { prisma } from "../utils/prisma/index.js";
 
 const authRouter = Router();
 // 로그인 API
-authRouter.post("/auth", async (req, res, next) => {
+authRouter.post("/login", async (req, res, next) => {
     try {
         const { email, password } =
             await userLoginSchemaValidation.validateAsync(req.body);
         console.log(password);
-        const existEmail = await Users.findOne({ where: { email } });
-        const existPassword = await Users.findOne({ where: { password } });
+        const existEmail = await prisma.users.findFirst({ where: { email } });
+        const existPassword = await prisma.users.findFirst({
+            where: { password },
+        });
 
         // email 또는 password가 데이터베이스에 존재하는지 확인
         if (!existEmail) {
-            const err = new NotUniqueValue();
-            throw err;
+            return res.status(401).json({
+                success: false,
+                message: "존재하지 않는 이메일 입니다.",
+            });
         }
 
         if (!existPassword) {
-            const err = new NotMatchPWDError();
-            throw err;
+            return res.status(401).json({
+                success: false,
+                message: "비밀번호가 일치하지 않습니다.",
+            });
         }
 
         // 로그인 성공
@@ -48,7 +51,7 @@ authRouter.post("/auth", async (req, res, next) => {
 });
 
 // 로그아웃 API
-authRouter.get("/auth/logout", auth_middleware, async (req, res, next) => {
+authRouter.get("/logout", auth_middleware, async (req, res, next) => {
     try {
         res.clearCookie("authorization");
         res.status(200).json({ message: "로그아웃 성공" });

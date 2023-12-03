@@ -2,9 +2,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import path from "path";
 import morgan from "morgan";
-import { usersRouter } from "./routers/users.js";
-import { authRouter } from "./routers/auth.js";
-import { postsRouter } from "./routers/posts.js";
+import router from "./routers/index.js";
 import { ErrorHandler } from "./middlewares/ErrorHandler.js";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
@@ -21,7 +19,7 @@ app.use(
     express.urlencoded({ extended: true }), // url 파싱
     cookieParser()
 );
-app.use("/api", [usersRouter, authRouter, postsRouter]);
+app.use("/api", router);
 app.use(ErrorHandler);
 // 에러 처리 미들웨어
 

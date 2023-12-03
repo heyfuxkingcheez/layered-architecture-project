@@ -1,12 +1,11 @@
 import jwt from "jsonwebtoken";
-import db from "../models/index.cjs";
 import {
     TokenTypeUnMatch,
     TokenNotExistError,
     UserNotExistError,
 } from "../lib/CustomError.js";
 import { TOKENKEY } from "../../constants/security.constant.js";
-let { Users } = db;
+import { prisma } from "../utils/prisma/index.js";
 
 const auth_middleware = async (req, res, next) => {
     // console.log("여기는 미들웨어 입니다", req.cookies.authorization);
@@ -26,7 +25,7 @@ const auth_middleware = async (req, res, next) => {
 
         const decodedToken = jwt.verify(token, TOKENKEY);
         const userId = decodedToken.userId;
-        const user = await Users.findOne({ where: { userId } });
+        const user = await prisma.users.findFirst({ where: { userId } });
 
         if (!user) {
             const err = new UserNotExistError();

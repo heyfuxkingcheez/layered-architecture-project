@@ -3,7 +3,7 @@ import Joi from "joi";
 const postSchemaValidation = Joi.object({
     title: Joi.string().required().trim(),
     content: Joi.string().required().trim(),
-    price: Joi.string().required().trim(),
+    price: Joi.number().required(),
     status: Joi.string().valid("SOLD_OUT", "FOR_SALE").trim(),
 });
 
