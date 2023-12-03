@@ -7,6 +7,12 @@ export class AuthController {
 
     Login = async (req, res, next) => {
         try {
+            const user = await this.postService.login();
+
+            res.status(200).json({
+                message: "로그인 성공",
+                data: user.accessToken,
+            });
         } catch (err) {}
     };
 }

@@ -3,6 +3,7 @@ import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { NotUniqueValue, UsersInquiryError } from "../lib/CustomError.js";
 import { userSchemaValidation } from "../lib/joi-validation.js";
 import { prisma } from "../utils/prisma/index.js";
+import bcrypt from "bcrypt";
 
 const usersRouter = Router();
 // 회원가입 API
@@ -36,12 +37,14 @@ usersRouter.post("/signup", async (req, res, next) => {
         }
 
         // 회원가입 성공
+        const salt = 12;
+        const hashedPassword = await bcrypt.hash(password, salt);
 
         const main = async () => {
             await prisma.users.create({
                 data: {
                     email,
-                    password,
+                    password: hashedPassword,
                     nickname,
                 },
             });

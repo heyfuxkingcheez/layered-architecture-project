@@ -8,6 +8,7 @@ import {
 import { auth_middleware } from "../middlewares/auth_middleware.js";
 import { userLoginSchemaValidation } from "../lib/joi-validation.js";
 import { prisma } from "../utils/prisma/index.js";
+import bcrypt from "bcrypt";
 
 const authRouter = Router();
 // 로그인 API
@@ -16,20 +17,18 @@ authRouter.post("/login", async (req, res, next) => {
         const { email, password } =
             await userLoginSchemaValidation.validateAsync(req.body);
         console.log(password);
-        const existEmail = await prisma.users.findFirst({ where: { email } });
-        const existPassword = await prisma.users.findFirst({
-            where: { password },
-        });
+        const user = await prisma.users.findFirst({ where: { email } });
+        const checkPassword = await bcrypt.compare(password, user.password);
 
         // email 또는 password가 데이터베이스에 존재하는지 확인
-        if (!existEmail) {
+        if (!user) {
             return res.status(401).json({
                 success: false,
                 message: "존재하지 않는 이메일 입니다.",
             });
         }
 
-        if (!existPassword) {
+        if (!checkPassword) {
             return res.status(401).json({
                 success: false,
                 message: "비밀번호가 일치하지 않습니다.",
@@ -37,7 +36,7 @@ authRouter.post("/login", async (req, res, next) => {
         }
 
         // 로그인 성공
-        const accessToken = jwt.sign({ userId: existEmail.userId }, TOKENKEY, {
+        const accessToken = jwt.sign({ userId: user.userId }, TOKENKEY, {
             expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
         });
         // jwt cookie로 할당
