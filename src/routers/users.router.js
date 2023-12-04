@@ -12,30 +12,6 @@ const usersController = new UsersController();
 usersRouter.post("/signup", usersController.signup);
 
 // 회원 정보 조회
-usersRouter.get("/:userid", auth_middleware, async (req, res, next) => {
-    const userid = req.params.userid;
-    const { userId } = res.locals.user;
-    const user = await prisma.users.findFirst({
-        where: { userId: +userId },
-        select: {
-            userId: true,
-            email: true,
-            nickname: true,
-            createdAt: true,
-            updatedAt: true,
-        },
-    });
-    console.log(typeof userId, typeof Number(userid));
-    try {
-        if (Number(userid) !== userId) {
-            const err = new UsersInquiryError();
-            throw err;
-        } else {
-            return res.json({ data: user });
-        }
-    } catch (err) {
-        next(err);
-    }
-});
+usersRouter.get("/:userid", auth_middleware, usersController.userInfo);
 
 export { usersRouter };

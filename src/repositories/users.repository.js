@@ -15,9 +15,9 @@ export class UsersRepository {
     };
 
     // 회원 정보 조회
-    userInfo = async () => {
+    userInfo = async (userid) => {
         const user = await prisma.users.findFirst({
-            where: { userId: +userId },
+            where: { userId: +userid },
             select: {
                 userId: true,
                 email: true,
