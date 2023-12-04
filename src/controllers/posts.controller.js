@@ -7,6 +7,17 @@ export class PostsController {
     // 게시글 목록 조회
     getPosts = async (req, res, next) => {
         try {
+            // const queryData = req.query.sort;
+            // let sortWord = "desc";
+
+            // if (queryData === undefined || queryData.toLowerCase() === "desc") {
+            //     sortWord = "desc";
+            // } else if (queryData.toLowerCase() === "asc") {
+            //     sortWord = "desc";
+            // } else {
+            //     throw new Error({ name: "올바른 경로가 아닙니다." });
+            // }
+
             const posts = await this.postsService.findAllPosts();
 
             return res

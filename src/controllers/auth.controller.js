@@ -15,16 +15,6 @@ export class AuthController {
             const accesstoken = user.accessToken;
             res.cookie("authorization", `Bearer ${accesstoken}`);
 
-            if (!user.user) {
-                const err = new NotUniqueValue();
-                throw err;
-            }
-
-            if (!user.checkPassword) {
-                const err = new NotMatchPWDError();
-                throw err;
-            }
-
             res.status(200).json({
                 message: "로그인 성공",
                 data: accesstoken,

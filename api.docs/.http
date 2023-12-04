@@ -1,13 +1,13 @@
 # 회원가입 POST
-### 
+###
 POST http://localhost:4050/api/users/signup
 Content-Type: application/json
 
 {
     "email": "asd4@naver.com",
-    "password" : "asd151",
-    "confirmPassword": "asd151",
-    "nickname" : "정기욱"
+    "password" : "asd111",
+    "confirmPassword": "asd111",
+    "nickname" : "박진우"
 }
 
 # 회원상세 조회
@@ -31,7 +31,7 @@ GET http://localhost:4050/api/auth/logout
 
 # 상품 등록
 ###
-POST http://localhost:4050/api/posts
+POST http://localhost:4050/api/posts/desc
 Content-Type: application/json
 
 {
@@ -42,7 +42,7 @@ Content-Type: application/json
 
 # 상품 목록 조회
 ###
-GET http://localhost:4050/api/posts
+GET http://localhost:4050/api/posts/
 
 # 상품 상세 조회
 ###
@@ -58,7 +58,7 @@ Content-Type: application/json
     "title" : "AKM-47",
     "content" : "더 큰 총알은 더 큰 설득력",
     "status" : "SOLD_OUT",
-    "price" : 40000
+    "price" : "ㄴㅇㅁㄴㅇ"
 }
 
 # 상품 삭제

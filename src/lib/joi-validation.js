@@ -8,7 +8,7 @@ const postSchemaValidation = Joi.object({
 });
 
 const userSchemaValidation = Joi.object({
-    email: Joi.string().required().trim(),
+    email: Joi.string().required().email().trim(),
     password: Joi.string().min(6).required().trim(),
     nickname: Joi.string().required().trim(),
     confirmPassword: Joi.ref("password"),

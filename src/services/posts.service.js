@@ -6,6 +6,7 @@ export class PostsService {
     // 게시글 조회
     findAllPosts = async () => {
         const posts = await this.postsRepository.findAllPosts();
+        if (posts.length === 0) throw new Error("존재하지 않는 게시글 입니다");
 
         return posts.map((post) => {
             return {
@@ -23,6 +24,7 @@ export class PostsService {
     // 게시글 상세 조회
     findOnePost = async (postId) => {
         const post = await this.postsRepository.findOnePost(postId);
+        if (!post) throw new Error("존재하지 않는 게시글 입니다");
 
         return {
             postId: post.postId,
@@ -58,7 +60,7 @@ export class PostsService {
     // 게시글 수정
     updatePost = async (postId, title, content, status, price) => {
         const post = await this.postsRepository.findOnePost(postId);
-        if (!post) throw new Error("존재하지 않는 게시글 입니다.");
+        if (!post) throw new Error("존재하지 않는 게시글 입니다");
 
         await this.postsRepository.updatePost(
             postId,

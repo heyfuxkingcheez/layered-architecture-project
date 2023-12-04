@@ -3,7 +3,9 @@ import { prisma } from "../utils/prisma/index.js";
 export class PostsRepository {
     // 게시글 목록 조회
     findAllPosts = async () => {
-        const posts = await prisma.posts.findMany();
+        const posts = await prisma.posts.findMany({
+            orderBy: { createdAt: "desc" },
+        });
 
         return posts;
     };

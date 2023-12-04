@@ -1,6 +1,6 @@
 const ErrorHandler = (err, req, res, next) => {
     console.log("Middleware Error Handling");
-    console.log(err);
+    console.log(err.message);
 
     //------------------------------------------------
     // 토큰 유효성 검사
@@ -31,43 +31,28 @@ const ErrorHandler = (err, req, res, next) => {
     }
 
     //------------------------------------------------
-    // 게시글 상세 조회 api Error handling
-    if (req.route.path === "/post/:productid") {
-        // 게시글 수정 api Error handling
-        if (req.method === "GET") {
-            // 게시글 상세 조회 api Error handling
-            if (err.name === "PostNotExistError") {
-                return res
-                    .status(400)
-                    .json({ errorMessage: "해당 게시글이 존재하지 않습니다." });
-            }
-        }
-
-        // 게시글 삭제 api Error handling
-        if (req.method === "DELETE") {
-            if (err.name === "NotMatchedIdError") {
-                return res
-                    .status(400)
-                    .send({ errorMessage: "삭제 할 권한이 없습니다." });
-            }
-        }
+    // 게시글 삭제 api Error handling
+    if (err.name === "NotMatchedIdError") {
+        return res
+            .status(400)
+            .send({ errorMessage: "삭제 할 권한이 없습니다." });
     }
+
     // 게시글 api Error handling
-    if (req.route.path === "/posts") {
-        // 게시글 목록 조회 api
-        if (req.method === "GET") {
-            if (err.name === "PostsNotExistError") {
+
+    // 게시글 목록 조회 api
+    if (req.method === "GET") {
+        if (err.name === "PostsNotExistError") {
+            return res
+                .status(400)
+                .json({ errorMessage: "작성된 글이 없습니다." });
+        }
+        // 게시글 목록 조회 asc, desc
+        if (req.url.includes(req.url.slice(0, 16))) {
+            if (err.name === "CantSortError") {
                 return res
                     .status(400)
-                    .json({ errorMessage: "작성된 글이 없습니다." });
-            }
-            // 게시글 목록 조회 asc, desc
-            if (req.url.includes(req.url.slice(0, 16))) {
-                if (err.name === "CantSortError") {
-                    return res
-                        .status(400)
-                        .json({ errorMessage: "옳바르지 않은 접근입니다." });
-                }
+                    .json({ errorMessage: "옳바르지 않은 접근입니다." });
             }
         }
     }
@@ -99,12 +84,11 @@ const ErrorHandler = (err, req, res, next) => {
     }
 
     // 회원 정보 조회 api Error handling
-    if (req.route.path === "/users/:userid") {
-        if (err.name === "UsersInquiryError") {
-            return res
-                .status(400)
-                .json({ errorMessage: "비정상적인 경로 입니다." });
-        }
+
+    if (err.name === "UsersInquiryError") {
+        return res
+            .status(400)
+            .json({ errorMessage: "비정상적인 경로 입니다." });
     }
 
     //------------------------------------------------
@@ -119,23 +103,6 @@ const ErrorHandler = (err, req, res, next) => {
         return res.status(400).json({
             errorMessage: "비밀번호가 다릅니다.",
         });
-    }
-    if (err.name === "ValidationError") {
-        if (err.details[0].path[0] === "password") {
-            return res.status(412).json({
-                errorMessage: "비밀번호를 입력하세요.",
-            });
-        }
-        if (err.details[0].path[0] === "email") {
-            return res.status(412).json({
-                errorMessage: "이메일을 입력하세요.",
-            });
-        }
-    }
-
-    // 로그아웃 api Error handling
-    if (req.route.path === "/auth/logout") {
-        return res.status(400).json({ message: "로그아웃 실패" });
     }
 
     // 회원 가입
@@ -152,7 +119,7 @@ const ErrorHandler = (err, req, res, next) => {
         }
     }
     // 게시글 수정 api Error handling\
-    if (err.message === "존재하지 않는 게시글 입니다.") {
+    if (err.message === "존재하지 않는 게시글 입니다") {
         return res
             .status(404)
             .send({ errorMessage: "존재하지 않는 게시글 입니다" });
