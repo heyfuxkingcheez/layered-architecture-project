@@ -1,5 +1,6 @@
 import { AuthService } from "../services/auth.service.js";
 import { userLoginSchemaValidation } from "../lib/joi-validation.js";
+import { NotUniqueValue, NotMatchPWDError } from "../lib/CustomError.js";
 
 export class AuthController {
     authService = new AuthService();
@@ -7,24 +8,21 @@ export class AuthController {
     // 로그인 API
     Login = async (req, res, next) => {
         try {
-            const { email, password } = req.body;
+            const { email, password } =
+                await userLoginSchemaValidation.validateAsync(req.body);
             const user = await this.authService.login(email, password);
+
             const accesstoken = user.accessToken;
             res.cookie("authorization", `Bearer ${accesstoken}`);
-            // console.log(user.checkPassword);
 
             if (!user.user) {
-                return res.status(401).json({
-                    success: false,
-                    message: "존재하지 않는 이메일 입니다.",
-                });
+                const err = new NotUniqueValue();
+                throw err;
             }
 
             if (!user.checkPassword) {
-                return res.status(401).json({
-                    success: false,
-                    message: "비밀번호가 일치하지 않습니다.",
-                });
+                const err = new NotMatchPWDError();
+                throw err;
             }
 
             res.status(200).json({
@@ -32,7 +30,7 @@ export class AuthController {
                 data: accesstoken,
             });
         } catch (err) {
-            console.log(err);
+            next(err);
         }
     };
 

@@ -9,6 +9,7 @@ import { prisma } from "../utils/prisma/index.js";
 
 const auth_middleware = async (req, res, next) => {
     // console.log("여기는 미들웨어 입니다", req.cookies.authorization);
+
     try {
         const { authorization } = req.cookies;
         if (!authorization) {

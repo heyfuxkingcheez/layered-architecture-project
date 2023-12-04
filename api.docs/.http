@@ -1,18 +1,18 @@
 # 회원가입 POST
-###
+### 
 POST http://localhost:4050/api/users/signup
 Content-Type: application/json
 
 {
-    "email": "asd5@naver.com",
-    "nickname" : "키자루",
+    "email": "asd4@naver.com",
     "password" : "asd151",
-    "confirmPassword" : "asd151"
+    "confirmPassword": "asd151",
+    "nickname" : "정기욱"
 }
 
 # 회원상세 조회
 ###
-GET http://localhost:4050/api/users/2
+GET http://localhost:4050/api/users/65
 
 # 로그인
 ###
@@ -20,7 +20,7 @@ POST http://localhost:4050/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "asd5@naver.com",
+    "email": "asd4@naver.com",
     "password": "asd151"
 }
 
@@ -46,12 +46,12 @@ GET http://localhost:4050/api/posts
 
 # 상품 상세 조회
 ###
-GET http://localhost:4050/api/posts/1
+GET http://localhost:4050/api/posts/6
 Content-Type: application/json
 
 # 상품 수정
 ###
-PUT http://localhost:4050/api/posts/2
+PUT http://localhost:4050/api/posts/6
 Content-Type: application/json
 
 {
@@ -63,6 +63,6 @@ Content-Type: application/json
 
 # 상품 삭제
 ###
-DELETE  http://localhost:4050/api/posts/2
+DELETE  http://localhost:4050/api/posts/6
 
 
