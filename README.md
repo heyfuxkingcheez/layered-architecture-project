@@ -57,31 +57,11 @@
 <br />
 
 # 📚 To Do List
-
-1. **본인이 작성한 숙련 주차 과제 코드**를 복사해서 심화 주차 과제를 위한 저장소를 생성합니다.
-    - 숙련 주차 과제를 완성하지 못한 경우
-        - 숙련 주차 해설 영상에 제공 된 [소스코드](https://github.com/modolee-sparta-nbc9/nodejs-intermediate)를 Fork해서 사용합니다.
-    - Github 저장소 Fork 방법
-        1. Fork 하고자 하는 **Github 저장소로 이동**하여 오른쪽 위의 **Fork** 버튼을 누릅니다.
-            
-            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/a2fba445-c382-4ba3-bf38-a581712f5aff/Untitled.png)
-            
-        2. **Owner**에 자신의 Github ID와 **Repository name**에 원하는 이름을 지정한 후, **Create fork** 버튼을 누릅니다.
-            
-            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/342325c7-03ea-4d5e-8912-3cf4c1361c34/Untitled.png)
-            
-        3. 이동 한 페이지에 **forked from 원본 저장소 주소**가 표시되면 정상적으로 fork가 완료 된 것입니다.
-            
-            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/b84cfccf-3cee-45eb-8150-c585c33a757b/Untitled.png)
-            
-        4. Fork 한 저장소를 clone 해서 사용하면 됩니다.
-            
-            ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/83c75a39-3aba-4ba4-a792-7aefe4b07895/b56032cf-07f2-4232-9e01-224fc57e3d86/Untitled.png)
-            
-2. **Sequelize**로 구현 된 과제 코드를 **3-Layered Architecture**를 적용해서 구조를 변경합니다.
-3. Controller, Service, Repository Layer는 **Class**를 이용해 구현합니다.
+      
+ **Sequelize**로 구현 된 과제 코드를 **3-Layered Architecture**를 적용해서 구조를 변경합니다.
+ Controller, Service, Repository Layer는 **Class**를 이용해 구현합니다.
     - Class의 Method는 **화살표 함수(Arrow Function)** 형태로 구현합니다.
-4. Repository Layer의 Sequelize로 구현된 코드를 **Prisma**로 변경합니다.
+ Repository Layer의 Sequelize로 구현된 코드를 **Prisma**로 변경합니다.
     1. `**(선택)**` **에러 처리 Middleware**를 추가하여, 에러를 한 곳에서 관리합니다.
 
 ## 2️⃣ API 동작 확인
