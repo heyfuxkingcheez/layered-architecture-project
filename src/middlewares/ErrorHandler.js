@@ -1,6 +1,6 @@
 const ErrorHandler = (err, req, res, next) => {
     console.log("Middleware Error Handling");
-    console.log(err.message);
+    console.log(err);
 
     //------------------------------------------------
     // 토큰 유효성 검사
@@ -29,37 +29,9 @@ const ErrorHandler = (err, req, res, next) => {
             .status(401)
             .json({ errorMessage: "토큰 사용자가 존재하지 않습니다." });
     }
-
     //------------------------------------------------
-    // 게시글 삭제 api Error handling
-    if (err.name === "NotMatchedIdError") {
-        return res
-            .status(400)
-            .send({ errorMessage: "삭제 할 권한이 없습니다." });
-    }
 
-    // 게시글 api Error handling
-
-    // 게시글 목록 조회 api
-    if (req.method === "GET") {
-        if (err.name === "PostsNotExistError") {
-            return res
-                .status(400)
-                .json({ errorMessage: "작성된 글이 없습니다." });
-        }
-        // 게시글 목록 조회 asc, desc
-        if (req.url.includes(req.url.slice(0, 16))) {
-            if (err.name === "CantSortError") {
-                return res
-                    .status(400)
-                    .json({ errorMessage: "옳바르지 않은 접근입니다." });
-            }
-        }
-    }
-
-    //------------------------------------------------
     // 회원 가입 api Error handling
-
     if (err.name === "ValidationError") {
         if (err.details[0].path[0] === "password") {
             return res.status(412).json({
@@ -83,22 +55,7 @@ const ErrorHandler = (err, req, res, next) => {
         }
     }
 
-    // 회원 정보 조회 api Error handling
-
-    if (err.name === "UsersInquiryError") {
-        return res
-            .status(400)
-            .json({ errorMessage: "비정상적인 경로 입니다." });
-    }
-
-    //------------------------------------------------
     // 로그인 api Error handling
-
-    if (err.name === "NotUniqueValue") {
-        return res.status(400).json({
-            errorMessage: "등록된 이메일이 없습니다.",
-        });
-    }
     if (err.name === "NotMatchPWDError") {
         return res.status(400).json({
             errorMessage: "비밀번호가 다릅니다.",
@@ -118,14 +75,18 @@ const ErrorHandler = (err, req, res, next) => {
                 .json({ message: "이미 존재하는 닉네임 입니다." });
         }
     }
+
     // 게시글 수정 api Error handling\
     if (err.message === "존재하지 않는 게시글 입니다") {
         return res
             .status(404)
             .send({ errorMessage: "존재하지 않는 게시글 입니다" });
     }
-    // 게시글 등록 api Error handling
+    if (err.message === "권한이 없습니다.") {
+        return res.status(412).json({ errorMessage: "권한이 없습니다." });
+    }
 
+    // 게시글 등록 api Error handling
     if (err.name === "ValidationError") {
         if (err.details[0].path[0] === "title") {
             return res.status(412).json({
@@ -143,6 +104,13 @@ const ErrorHandler = (err, req, res, next) => {
             });
         }
     }
+
+    return res
+        .status(400)
+        .json({
+            errorMessage:
+                "알 수 없는 오류가 발생했습니다, 관리자에게 문의 하십시오.",
+        });
 };
 
 export { ErrorHandler };

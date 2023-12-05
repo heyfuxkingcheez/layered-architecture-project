@@ -1,9 +1,5 @@
 import { Router } from "express";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
-import { NotUniqueValue, UsersInquiryError } from "../lib/CustomError.js";
-import { userSchemaValidation } from "../lib/joi-validation.js";
-import { prisma } from "../utils/prisma/index.js";
-import bcrypt from "bcrypt";
 import { UsersController } from "../controllers/users.controller.js";
 
 const usersRouter = Router();

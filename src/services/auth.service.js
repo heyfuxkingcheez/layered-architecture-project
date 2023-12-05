@@ -13,12 +13,12 @@ export class AuthService {
         const user = await this.authRepository.login(email);
         if (!user) return new Error("존재하지 않는 계정입니다.");
 
-        if (!user.checkPassword) {
+        const checkPassword = bcrypt.compareSync(password, user?.password);
+
+        if (!checkPassword) {
             const err = new NotMatchPWDError();
             throw err;
         }
-
-        const checkPassword = bcrypt.compareSync(password, user?.password);
 
         const accessToken = jwt.sign({ userId: user.userId }, TOKENKEY, {
             expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,

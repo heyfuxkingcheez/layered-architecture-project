@@ -1,13 +1,5 @@
 import Router from "express";
 import { auth_middleware } from "../middlewares/auth_middleware.js";
-import {
-    PostNotExistError,
-    PostsNotExistError,
-    CantSortError,
-    NotMatchedIdError,
-} from "../lib/CustomError.js";
-import { postSchemaValidation } from "../lib/joi-validation.js";
-import { prisma } from "../utils/prisma/index.js";
 import { PostsController } from "./../controllers/posts.controller.js";
 
 const postsRouter = Router();

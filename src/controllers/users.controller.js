@@ -8,8 +8,6 @@ export class UsersController {
     // 회원 가입
     signup = async (req, res, next) => {
         try {
-            // 회원가입
-
             const { email, nickname, password, confirmPassword } =
                 await userSchemaValidation.validateAsync(req.body);
 

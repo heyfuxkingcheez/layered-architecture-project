@@ -1,6 +1,5 @@
 import { AuthService } from "../services/auth.service.js";
 import { userLoginSchemaValidation } from "../lib/joi-validation.js";
-import { NotUniqueValue, NotMatchPWDError } from "../lib/CustomError.js";
 
 export class AuthController {
     authService = new AuthService();
@@ -24,6 +23,7 @@ export class AuthController {
         }
     };
 
+    // 로그아웃 API
     Logout = async (req, res, next) => {
         try {
             res.clearCookie("authorization");

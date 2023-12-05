@@ -67,11 +67,13 @@ export class PostsController {
     updatePost = async (req, res, next) => {
         try {
             const { postId } = req.params;
+            const { userId } = res.locals.user;
             const { title, content, status, price } =
                 await postSchemaValidation.validateAsync(req.body);
 
             const updatedPost = await this.postsService.updatePost(
                 postId,
+                userId,
                 title,
                 content,
                 status,
@@ -90,8 +92,11 @@ export class PostsController {
     deletePost = async (req, res, next) => {
         try {
             const { postId } = req.params;
-
-            const deletedPost = await this.postsService.deletePost(postId);
+            const { userId } = res.locals.user;
+            const deletedPost = await this.postsService.deletePost(
+                postId,
+                userId
+            );
 
             return res
                 .status(200)

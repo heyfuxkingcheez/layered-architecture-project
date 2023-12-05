@@ -58,17 +58,20 @@ export class PostsService {
     };
 
     // 게시글 수정
-    updatePost = async (postId, title, content, status, price) => {
-        const post = await this.postsRepository.findOnePost(postId);
-        if (!post) throw new Error("존재하지 않는 게시글 입니다");
+    updatePost = async (postId, userId, title, content, status, price) => {
+        const post = await this.postsRepository.findOnePost(postId, userId);
 
-        await this.postsRepository.updatePost(
-            postId,
-            title,
-            content,
-            status,
-            price
-        );
+        if (!post) throw new Error("존재하지 않는 게시글 입니다");
+        if (post.UserId !== userId) throw new Error("권한이 없습니다.");
+        if (postId)
+            await this.postsRepository.updatePost(
+                postId,
+                userId,
+                title,
+                content,
+                status,
+                price
+            );
 
         const updatedPost = await this.postsRepository.findOnePost(postId);
 
@@ -83,9 +86,10 @@ export class PostsService {
         };
     };
 
-    deletePost = async (postId) => {
+    deletePost = async (postId, userId) => {
         const post = await this.postsRepository.findOnePost(postId);
         if (!post) throw new Error("존재하지 않는 게시글 입니다");
+        if (post.UserId !== userId) throw new Error("권한이 없습니다.");
 
         await this.postsRepository.deletePost(postId);
     };

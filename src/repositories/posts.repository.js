@@ -34,7 +34,7 @@ export class PostsRepository {
     };
 
     // 게시글 수정
-    updatePost = async (postId, title, content, status, price) => {
+    updatePost = async (postId, userId, title, content, status, price) => {
         const updatedPost = await prisma.posts.update({
             where: {
                 postId: +postId,
