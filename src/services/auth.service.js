@@ -9,6 +9,7 @@ import { NotMatchPWDError } from "../lib/CustomError.js";
 
 export class AuthService {
     authRepository = new AuthRepository();
+    // 로그인
     login = async (email, password) => {
         const user = await this.authRepository.login(email);
         if (!user) return new Error("존재하지 않는 계정입니다.");
@@ -21,7 +22,7 @@ export class AuthService {
         }
 
         const accessToken = jwt.sign({ userId: user.userId }, TOKENKEY, {
-            expiresIn: JWT_ACCESS_TOKEN_EXPIRES_IN,
+            expiresIn: `${JWT_ACCESS_TOKEN_EXPIRES_IN}m`,
         });
 
         return { accessToken, user, checkPassword };

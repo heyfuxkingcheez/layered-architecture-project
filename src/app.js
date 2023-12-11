@@ -6,6 +6,7 @@ import router from "./routers/index.js";
 import { ErrorHandler } from "./middlewares/ErrorHandler.js";
 import { fileURLToPath } from "url";
 import dotenv from "dotenv";
+import expressSession from "express-session";
 
 dotenv.config();
 
@@ -19,9 +20,19 @@ app.use(
     express.urlencoded({ extended: true }), // url 파싱
     cookieParser()
 );
+// 로그아웃 blackList 등록용 session
+app.use(
+    expressSession({
+        secret: process.env.TOKENKEY,
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 1000 * 60 * process.env.JWT_EXPIRE, // jwt expire 시간과 동일하게 설정
+        },
+    })
+);
 app.use("/api", router);
 app.use(ErrorHandler);
-// 에러 처리 미들웨어
 
 // 서버 실행
 app.listen(process.env.PORT, () => {

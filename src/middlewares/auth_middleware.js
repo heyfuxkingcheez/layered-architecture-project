@@ -11,6 +11,13 @@ const auth_middleware = async (req, res, next) => {
     // console.log("여기는 미들웨어 입니다", req.cookies.authorization);
 
     try {
+        // 로그아웃 blackList 등록용 session 확인
+        const blackListTokenCheck = (await req.session.blackListToken) ?? null;
+        if (blackListTokenCheck) {
+            const err = new TokenNotExistError();
+            throw err;
+        }
+
         const { authorization } = req.cookies;
         if (!authorization) {
             const err = new TokenNotExistError();
