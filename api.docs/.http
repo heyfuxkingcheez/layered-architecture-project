@@ -14,6 +14,7 @@ Content-Type: application/json
 ###
 GET http://localhost:4050/api/users/75
 
+
 # 로그인
 ###
 POST http://localhost:4050/api/auth/login

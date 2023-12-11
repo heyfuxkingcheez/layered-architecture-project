@@ -13,8 +13,14 @@ const auth_middleware = async (req, res, next) => {
     try {
         // 로그아웃 blackList 등록용 session 확인
         const { authorization } = req.cookies;
+        console.log("authorization: ", authorization);
         const blackListTokenCheck = await req.session.blackListToken;
-        if (blackListTokenCheck === authorization) {
+        console.log("blackListTokenCheck: ", blackListTokenCheck);
+
+        if (
+            blackListTokenCheck === authorization &&
+            blackListTokenCheck !== undefined
+        ) {
             const err = new TokenNotExistError();
             throw err;
         }
